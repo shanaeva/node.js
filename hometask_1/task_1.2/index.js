@@ -1,5 +1,5 @@
-const fs = require('fs');
-const csv = require('csvtojson')
+import fs from 'fs';
+import csv from 'csvtojson';
 
 const csvFilePath = './csv/data.csv';
 const txtFilePath = './csv/data.txt';
