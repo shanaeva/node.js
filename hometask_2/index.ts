@@ -1,12 +1,6 @@
 import express from 'express';
-import { Sequelize } from 'sequelize';
-import { router } from './controller';
-
-export const sequelize = new Sequelize('users', 'admin', 'admin', {
-    host: 'localhost',
-    dialect: 'postgres',
-    port: 5432,
-});
+import { router } from './controllers/controller';
+import { sequelize } from './sequelize';
 
 sequelize
     .authenticate()
@@ -15,12 +9,13 @@ sequelize
     })
     .catch((err) => {
         console.error('Unable to connect to the database:', err);
-    });
+    })
+sequelize.sync();
 
-// export const app = express();
+export const app = express();
 
-// const port = process.env.PORT || 3000;
-// app.use(express.json());
-// app.use('/', router);
+const port = process.env.PORT || 3000;
+app.use(express.json());
+app.use('/', router);
 
-// app.listen(port, () => console.log('started'));
+app.listen(port, () => console.log('started'));
