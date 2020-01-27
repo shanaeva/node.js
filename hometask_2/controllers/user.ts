@@ -1,8 +1,8 @@
 import express from 'express';
-import { getUsersList, getUser, createUser, deleteUser, updateUser, getAutoSuggestUsers } from '../data-accets/user-helper';
+import { getUsersList, getUser, createUser, deleteUser, updateUser, getAutoSuggestUsers } from '../services/user';
 import { createValidator } from 'express-joi-validation';
-import { querySchema } from '../schemes/schema';
-import { TUser } from '../types/types';
+import { UserSchema } from '../schemes/user';
+import { TUser } from '../types/user';
 
 const validator = createValidator();
 
@@ -16,13 +16,13 @@ router.route('/users')
         }
         res.json(await getUsersList());
     })
-    .post(validator.body(querySchema), async (req, res) => {
+    .post(validator.body(UserSchema), async (req, res) => {
         res.json(await createUser(req.body));
     });
 
 router.route('/users/:id')
     .get(async (req, res) => {
-        const user: TUser = await getUser(req.params.id);
+        const user: TUser = await getUser(Number(req.params.id));
         if (!user) {
             return res.status(404)
                 .json({ message: `User with id ${req.params.id} not found` });
@@ -30,19 +30,18 @@ router.route('/users/:id')
         res.json(user);
     })
     .delete(async (req, res) => {
-        const user: number = await deleteUser(req.params.id);
+        const user: number = await deleteUser(Number(req.params.id));
         if (!user) {
             return res.status(404)
                 .json({ message: `User with id ${req.params.id} not found` });
         }
         res.json(user);
     })
-    .put(validator.body(querySchema), async (req, res) => {
-        const user: [number, TUser[]] = await updateUser(req.params.id, req.body);
+    .put(validator.body(UserSchema), async (req, res) => {
+        const user: [number, TUser[]] = await updateUser(Number(req.params.id), req.body);
         if (!user) {
             return res.status(404)
                 .json({ message: `User with id ${req.params.id} not found` });
         }
         res.json(user);
     });
-

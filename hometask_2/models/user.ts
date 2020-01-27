@@ -1,15 +1,15 @@
 import { Model, DataTypes, BuildOptions } from 'sequelize';
-import { sequelize } from './../sequelize';
+import { sequelize } from './../data-access/sequelize';
 
-export class User extends Model {
-    public id!: string;
+export class UserModel extends Model {
+    public id!: number;
     public login!: string;
     public password!: string;
     public age!: number;
     isDelete?: boolean;
 }
 
-User.init({
+UserModel.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -29,10 +29,10 @@ User.init({
     },
     isDelete: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
         defaultValue: false
     }
 }, {
     tableName: 'users',
-    sequelize: sequelize, 
+    sequelize, 
+    timestamps: false,
 });

@@ -1,17 +1,8 @@
 import express from 'express';
-import { router } from './controllers/controller';
-import { sequelize } from './sequelize';
+import { router } from './controllers/user';
+import { initSequelize } from './data-access/sequelize';
 
-sequelize
-    .authenticate()
-    .then(() => {
-        console.log('Connection has been established successfully.');
-    })
-    .catch((err) => {
-        console.error('Unable to connect to the database:', err);
-    })
-sequelize.sync();
-
+initSequelize();
 export const app = express();
 
 const port = process.env.PORT || 3000;
