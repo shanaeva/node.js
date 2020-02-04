@@ -1,5 +1,8 @@
 import express from 'express';
-import { router } from './controller';
+import { router } from './controllers/user';
+import { initSequelize } from './data-access/sequelize';
+
+initSequelize();
 export const app = express();
 
 const port = process.env.PORT || 3000;
