@@ -30,7 +30,7 @@ router.route('/users/:id')
         res.json(user);
     })
     .delete(async (req, res) => {
-        const user: number = await deleteUser(Number(req.params.id));
+        const user: [number, TUser[]] = await deleteUser(Number(req.params.id));
         if (!user) {
             return res.status(404)
                 .json({ message: `User with id ${req.params.id} not found` });

@@ -8,9 +8,11 @@ export const getUsersList = async (): Promise<TUser[]> => await UserModel.findAl
 
 export const getUser = async (id: number): Promise<TUser> => await UserModel.findByPk(id);
 
-export const deleteUser = async (id: number): Promise<number> => await UserModel.destroy({
+export const deleteUser = async (id: number): Promise<[number, TUser[]]> => await UserModel.update({
+    isDelete: true,
+}, {
     where: {
-        id,
+        id
     }
 });
 
