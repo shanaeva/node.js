@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import { TUser, TAutoSuggest } from '../types/user';
+import { TUser, TAutoSuggestUsers } from '../types/user';
 import { UserModel } from '../models/user';
 
 export const createUser = async (user: TUser): Promise<TUser> => await UserModel.create({ ...user });
@@ -23,7 +23,7 @@ export const updateUser = async (id: number, params: TUser): Promise<[number, TU
         }
     });
 
-export const getAutoSuggestUsers = async ({ login, limit }: TAutoSuggest): Promise<TUser[]> =>
+export const getAutoSuggestUsers = async ({ login, limit }: TAutoSuggestUsers): Promise<TUser[]> =>
     await UserModel.findAll({
         where: {
             login: {

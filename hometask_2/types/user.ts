@@ -6,7 +6,7 @@ export type TUser = {
     isDelete?: boolean;
 }
 
-export type TAutoSuggest = {
+export type TAutoSuggestUsers = {
     login: string;
     limit: number;
 }

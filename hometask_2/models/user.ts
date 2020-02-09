@@ -1,5 +1,5 @@
-import { Model, DataTypes, BuildOptions } from 'sequelize';
-import { sequelize } from './../data-access/sequelize';
+import { Model, DataTypes } from 'sequelize';
+import { sequelize } from '../data-access/sequelize';
 
 export class UserModel extends Model {
     public id!: number;
