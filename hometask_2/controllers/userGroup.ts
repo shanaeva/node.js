@@ -1,8 +1,7 @@
 import express from 'express';
 import { createValidator } from 'express-joi-validation';
-import { createUserGroup, } from '../services/userGroup';
+import { createUserGroup, addUsersToGroup } from '../services/userGroup';
 import { UserGroupSchema } from '../schemes/userGroup';
-import { TUserGroup } from '../types/userGroup';
 
 const validator = createValidator();
 
@@ -12,3 +11,8 @@ router.route('/userGroup')
     .post(validator.body(UserGroupSchema), async (req, res) => {
         res.json(await createUserGroup(req.body));
     });
+
+router.route('/usersGroup')
+    .post(async (req, res) => {
+        res.json(await addUsersToGroup(req.body));
+    });    

@@ -1,9 +1,6 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../data-access/sequelize';
 import { Permission } from '../types/group';
-import { UserModel } from './user';
-import { UserGroup } from './userGroup';
-
 export class GroupModel extends Model {
     public id!: number;
     public name!: string;
@@ -29,4 +26,3 @@ GroupModel.init({
     timestamps: false,
 });
 
-GroupModel.belongsToMany(UserModel, { through: UserGroup });
