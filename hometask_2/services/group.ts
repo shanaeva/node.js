@@ -2,10 +2,11 @@ import { Op } from 'sequelize';
 import { TGroup, TAutoSuggestGroups } from '../types/group';
 import { GroupModel } from '../models/group';
 import { UserGroup } from '../models/userGroup';
+import { UserModel } from '../models/user';
 
 export const createGroup = async (group: TGroup): Promise<TGroup> => await GroupModel.create({ ...group });
 
-export const getGroupsList = async (): Promise<TGroup[]> => await GroupModel.findAll();
+export const getGroupsList = async (): Promise<TGroup[]> => await GroupModel.findAll({ include: [ { all: true }] });
 
 export const getGroup = async (id: number): Promise<TGroup> => await GroupModel.findByPk(id);
 

@@ -11,9 +11,17 @@ export class UserGroup extends Model {
 UserGroup.init({
     user_id: {
         type: DataTypes.INTEGER,
+        references: {
+            model: 'users',
+            key: 'id'
+        }
     },
     group_id: {
         type: DataTypes.INTEGER,
+        references: {
+            model: 'groups',
+            key: 'id'
+        }
     },
 }, {
     tableName: 'user_group',
@@ -21,5 +29,5 @@ UserGroup.init({
     timestamps: false,
 });
 
-UserModel.belongsToMany(GroupModel, { through: UserGroup });
-GroupModel.belongsToMany(UserModel, { through: UserGroup });
+UserModel.belongsToMany(GroupModel, { through: 'UserGroup', foreignKey: 'user_id' });
+GroupModel.belongsToMany(UserModel, { through: 'UserGroup', foreignKey: 'group_id' });
