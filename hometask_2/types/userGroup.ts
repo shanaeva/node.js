@@ -4,6 +4,6 @@ export type TUserGroup = {
 }
 
 export type TUsersGroup = {
-    user_id: number[];
+    user_ids: number[];
     group_id: number;
 }

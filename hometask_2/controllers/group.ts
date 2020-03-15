@@ -1,10 +1,10 @@
 import express from 'express';
 import { getGroupsList, getGroup, createGroup, deleteGroup, updateGroup, getAutoSuggestGroups } from '../services/group';
 import { createValidator } from 'express-joi-validation';
-import { GroupSchema } from '../schemes/group';
+import { GroupSchema, GroupSchemaNoRequired } from '../schemes/group';
 import { TGroup } from '../types/group';
-import { createUserGroup, addUsersToGroup } from '../services/userGroup';
-import { UserGroupSchema } from '../schemes/userGroup';
+import { addUsersToGroup } from '../services/userGroup';
+import { UsersGroupSchema } from '../schemes/userGroup';
 
 const validator = createValidator();
 
@@ -18,6 +18,7 @@ router.route('/groups')
         }
         res.json(await getGroupsList());
     })
+
     .post(validator.body(GroupSchema), async (req, res) => {
         res.json(await createGroup(req.body));
     });
@@ -31,29 +32,26 @@ router.route('/groups/:id(\\d+)')
         }
         res.json(group);
     })
-    .delete(async (req, res) => {
-        const group: number = await deleteGroup(Number(req.params.id));
-        if (!group) {
-            return res.status(404)
-                .json({ message: `Group with id ${req.params.id} not found` });
-        }
-        res.json(group);
-    })
-    .put(validator.body(GroupSchema), async (req, res) => {
-        const group: [number, TGroup[]] = await updateGroup(Number(req.params.id), req.body);
-        if (!group) {
-            return res.status(404)
-                .json({ message: `Group with id ${req.params.id} not found` });
-        }
-        res.json(group);
-    });
 
-router.route('/groups/user/')
-    .post(validator.body(UserGroupSchema), async (req, res) => {
-        res.json(await createUserGroup(req.body));
+    .delete(async (req, res) => {
+        const numberOfRemoteGroup: number = await deleteGroup(Number(req.params.id));
+        if (!numberOfRemoteGroup) {
+            return res.status(404)
+                .json({ message: `Group with id ${req.params.id} not found` });
+        }
+        res.json(numberOfRemoteGroup);
+    })
+
+    .put(validator.body(GroupSchemaNoRequired), async (req, res) => {
+        const result: [number, TGroup[]] = await updateGroup(Number(req.params.id), req.body);
+        if (!result[0]) {
+            return res.status(404)
+                .json({ message: `Group with id ${req.params.id} not found` });
+        }
+        res.json(result);
     });
 
 router.route('/groups/users')
-    .post(async (req, res) => {
+    .post(validator.body(UsersGroupSchema), async (req, res) => {
         res.json(await addUsersToGroup(req.body));
     });

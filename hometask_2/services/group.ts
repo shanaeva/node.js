@@ -6,9 +6,13 @@ import { UserModel } from '../models/user';
 
 export const createGroup = async (group: TGroup): Promise<TGroup> => await GroupModel.create({ ...group });
 
-export const getGroupsList = async (): Promise<TGroup[]> => await GroupModel.findAll({ include: [ { all: true }] });
+export const getGroupsList = async (): Promise<TGroup[]> => await GroupModel.findAll();
 
-export const getGroup = async (id: number): Promise<TGroup> => await GroupModel.findByPk(id);
+export const getGroup = async (id: number): Promise<TGroup> => await GroupModel.findByPk(id, {
+    include: [{
+        model: UserModel, as: 'users', through: { attributes: [] }
+    }]
+});
 
 export const deleteGroup = async (id: number): Promise<number> => {
     await UserGroup.destroy({
@@ -20,7 +24,7 @@ export const deleteGroup = async (id: number): Promise<number> => {
     return await GroupModel.destroy({
         where: {
             id,
-        }
+        },
     })
 };
 
@@ -30,14 +34,15 @@ export const updateGroup = async (id: number, params: TGroup): Promise<[number, 
     }, {
         where: {
             id
-        }
+        },
+        returning: true,
     });
 
 export const getAutoSuggestGroups = async ({ name, limit }: TAutoSuggestGroups): Promise<TGroup[]> =>
     await GroupModel.findAll({
         where: {
             name: {
-                [Op.iRegexp]: name
+                [Op.iLike]: `%${name}%`
             }
         },
         limit,

@@ -31,14 +31,15 @@ export const updateUser = async (id: number, params: TUser): Promise<[number, TU
     }, {
         where: {
             id
-        }
+        },
+        returning: true,
     });
 
 export const getAutoSuggestUsers = async ({ login, limit }: TAutoSuggestUsers): Promise<TUser[]> =>
     await UserModel.findAll({
         where: {
             login: {
-                [Op.iRegexp]: login
+                [Op.iLike]: `%${login}%`
             }
         },
         limit,

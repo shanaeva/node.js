@@ -1,7 +1,7 @@
 import express from 'express';
 import { getUsersList, getUser, createUser, deleteUser, updateUser, getAutoSuggestUsers } from '../services/user';
 import { createValidator } from 'express-joi-validation';
-import { UserSchema } from '../schemes/user';
+import { UserSchema, UserSchemaNoRequired } from '../schemes/user';
 import { TUser } from '../types/user';
 
 const validator = createValidator();
@@ -16,6 +16,7 @@ router.route('/users')
         }
         res.json(await getUsersList());
     })
+
     .post(validator.body(UserSchema), async (req, res) => {
         res.json(await createUser(req.body));
     });
@@ -29,19 +30,21 @@ router.route('/users/:id')
         }
         res.json(user);
     })
+
     .delete(async (req, res) => {
-        const user: [number, TUser[]] = await deleteUser(Number(req.params.id));
-        if (!user) {
+        const result: [number, TUser[]] = await deleteUser(Number(req.params.id));
+        if (!result[0]) {
             return res.status(404)
                 .json({ message: `User with id ${req.params.id} not found` });
         }
-        res.json(user);
+        res.json(result);
     })
-    .put(validator.body(UserSchema), async (req, res) => {
-        const user: [number, TUser[]] = await updateUser(Number(req.params.id), req.body);
-        if (!user) {
+
+    .put(validator.body(UserSchemaNoRequired), async (req, res) => {
+        const result: [number, TUser[]] = await updateUser(Number(req.params.id), req.body);
+        if (!result[0]) {
             return res.status(404)
                 .json({ message: `User with id ${req.params.id} not found` });
         }
-        res.json(user);
+        res.json(result);
     });

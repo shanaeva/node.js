@@ -6,4 +6,4 @@ CREATE TABLE groups (
 
  INSERT INTO groups ( name, permission)
     VALUES 
-    ('write', ['WRITE']);
+    ('write', ARRAY['WRITE']);

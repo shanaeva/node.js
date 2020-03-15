@@ -30,4 +30,4 @@ UserGroup.init({
 });
 
 UserModel.belongsToMany(GroupModel, { through: 'UserGroup', foreignKey: 'user_id' });
-GroupModel.belongsToMany(UserModel, { through: 'UserGroup', foreignKey: 'group_id' });
+GroupModel.belongsToMany(UserModel, { through: 'UserGroup', foreignKey: 'group_id', as: 'users' });
