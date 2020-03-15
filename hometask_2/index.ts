@@ -1,6 +1,6 @@
 import express from 'express';
-import { router } from './controllers/user';
 import { initSequelize } from './data-access/sequelize';
+import {router} from './controllers'
 
 initSequelize();
 export const app = express();
