@@ -24,7 +24,12 @@ router.route('/users')
 
     .post(validator.body(UserSchema), async (req, res, next) => {
         try {
-            res.json(await createUser(req.body));
+            const user: TUser = await createUser(req.body);
+            if (!user) {
+                return res.status(404)
+                    .json({ message: `User with login ${req.body.login} already exists` });
+            }
+            res.json(user);
         }
         catch (err) {
             return next(err);
