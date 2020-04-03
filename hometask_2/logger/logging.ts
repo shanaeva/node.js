@@ -12,7 +12,7 @@ export const loggerMiddleware = (req: any, res: any, next: any) => {
     next();
 };
 
-export const errorHandler = (err: any, req: any, res: any, next: any) => {
+export const errorHandler = (err: any, req: any, res: any) => {
     const params = isEmpty(req.query) || isEmpty(req.body);
     logErr(req.method, 'arguments:', params, 'message', err.message);
     res.status(500);
