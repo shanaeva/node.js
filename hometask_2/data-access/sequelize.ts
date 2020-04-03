@@ -4,6 +4,7 @@ export const sequelize = new Sequelize('users', 'admin', 'admin', {
     host: 'localhost',
     dialect: 'postgres',
     port: 5432,
+    logging: false,
 });
 
 export const initSequelize = () => sequelize

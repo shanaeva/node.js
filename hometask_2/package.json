@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "task": "nodemon index.ts",
+    "debug": "set DEBUG=method,error & npm run task",
     "lint": "eslint ./**/*.ts",
     "lint:fix": "eslint ./**/*.ts --fix"
   },
@@ -26,12 +27,16 @@
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "@types/bluebird": "^3.5.29",
+    "@types/debug": "^4.1.5",
     "@types/express": "^4.17.2",
     "@types/joi": "^14.3.4",
+    "@types/jsonwebtoken": "^8.3.8",
     "@types/uuid": "^3.4.6",
     "@types/validator": "^12.0.1",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "express-joi-validation": "^4.0.3",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^7.17.1",
     "pg-hstore": "^2.3.3",
     "sequelize": "^5.21.3",
