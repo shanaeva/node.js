@@ -8,13 +8,13 @@ const validator = createValidator();
 export const router = express.Router();
 
 router.route('/users')
-    .get((req, res, next) => getUsers(req, res, next))
+    .get(getUsers)
 
     .post(validator.body(UserSchema), (req, res, next) => postCreateUser(req, res, next));
 
 router.route('/users/:id')
-    .get(async (req, res, next) => getOneUser(req, res, next))
+    .get(getOneUser)
 
-    .delete(async (req, res, next) => deleteOneUser(req, res, next))
+    .delete(deleteOneUser)
 
     .put(validator.body(UserSchemaNoRequired), async (req, res, next) => putUser(req, res, next));

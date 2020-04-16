@@ -9,14 +9,14 @@ const validator = createValidator();
 export const router = express.Router();
 
 router.route('/groups')
-    .get(async (req, res, next) => getGroups(req, res, next))
+    .get(getGroups)
 
     .post(validator.body(GroupSchema), async (req, res, next) => postGroup(req, res, next));
 
 router.route('/groups/:id(\\d+)')
-    .get(async (req, res, next) => getOneGroup(req, res, next))
+    .get(getOneGroup)
 
-    .delete(async (req, res, next) => deleteOneGroup(req, res, next))
+    .delete(deleteOneGroup)
 
     .put(validator.body(GroupSchemaNoRequired), async (req, res, next) => putGroup(req, res, next));
 
