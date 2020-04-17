@@ -3,7 +3,20 @@ import { TUser, TAutoSuggestUsers } from '../types/user';
 import { UserModel } from '../models/user';
 import { UserGroup } from '../models/userGroup';
 
-export const createUser = async (user: TUser): Promise<TUser> => await UserModel.create({ ...user });
+export const getUserByLogin = async (login: string): Promise<TUser> => await UserModel.findOne({
+    where: {
+        login,
+    }
+});
+
+export const createUser = async (user: TUser): Promise<TUser> => {
+    const userByLogin = await getUserByLogin(user.login);
+
+    if(Object.keys(userByLogin).length === 0){
+        return await UserModel.create({ ...user })
+    }
+};
+
 
 export const getUsersList = async (): Promise<TUser[]> => await UserModel.findAll();
 
