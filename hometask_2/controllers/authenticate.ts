@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { getUserByLogin } from '../services/user';
 
-export const getOneUserByLogin = async (req, res, next) => {
+export const authentication = async (req, res, next) => {
     try {
-        const employee = await getUserByLogin((req.body.login));
+        const employee = await getUserByLogin(req.body.login);
 
-        if (employee === undefined || employee.password !== req.body.password) {
-            res.status(403).send({ success: false, message: 'Bad login/password combinator' });
+        if (!employee || employee.password !== req.body.password) {
+            res.status(403).send({ success: false, message: 'Bad login/password combination' });
         } else {
             const payload = { 'login': employee.login };
             const token = jwt.sign(payload, 'secret', { expiresIn: 30 });

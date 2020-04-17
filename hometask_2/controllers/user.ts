@@ -14,7 +14,7 @@ export const getUsers = async (req, res, next) => {
     }
 }
 
-export const postCreateUser = (async (req, res, next) => {
+export const postCreateUser = async (req, res, next) => {
     try {
         const user: TUser = await createUser(req.body);
         if (!user) {
