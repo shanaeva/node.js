@@ -1,4 +1,4 @@
-import {getUsersList, getUser, createUser, deleteUser, updateUser, getAutoSuggestUsers } from '../services/user';
+import { getUsersList, getUser, createUser, deleteUser, updateUser, getAutoSuggestUsers } from '../services/user';
 import { TUser } from '../types/user';
 
 export const getUsers = async (req, res, next) => {
@@ -8,11 +8,10 @@ export const getUsers = async (req, res, next) => {
             return res.json(await getAutoSuggestUsers(req.query));
         }
         res.json(await getUsersList());
-    }
-    catch (err) {
+    } catch (err) {
         return next(err);
     }
-}
+};
 
 export const postCreateUser = async (req, res, next) => {
     try {
@@ -22,11 +21,10 @@ export const postCreateUser = async (req, res, next) => {
                 .json({ message: `User with login ${req.body.login} already exists` });
         }
         res.json(user);
-    }
-    catch (err) {
+    } catch (err) {
         return next(err);
     }
-}
+};
 
 export const getOneUser = async (req, res, next) => {
     try {
@@ -36,11 +34,11 @@ export const getOneUser = async (req, res, next) => {
                 .json({ message: `User with id ${req.params.id} not found` });
         }
         res.json(user);
-    }
-    catch (err) {
+    } catch (err) {
         return next(err);
     }
-}
+};
+
 export const deleteOneUser = async (req, res, next) => {
     try {
         const result: [number, TUser[]] = await deleteUser(Number(req.params.id));
@@ -49,11 +47,10 @@ export const deleteOneUser = async (req, res, next) => {
                 .json({ message: `User with id ${req.params.id} not found` });
         }
         res.json(result);
+    } catch (err) {
+        return next(err);
     }
-    catch (err) {
-        return next(err)
-    }
-}
+};
 
 export const putUser =  async (req, res, next) => {
     try {
@@ -63,10 +60,8 @@ export const putUser =  async (req, res, next) => {
                 .json({ message: `User with id ${req.params.id} not found` });
         }
         res.json(result);
+    } catch (err) {
+        return next(err);
     }
-    catch (err) {
-        return next(err)
-    }
-}
-
+};
 

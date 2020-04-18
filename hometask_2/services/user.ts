@@ -5,15 +5,15 @@ import { UserGroup } from '../models/userGroup';
 
 export const getUserByLogin = async (login: string): Promise<TUser> => await UserModel.findOne({
     where: {
-        login,
+        login
     }
 });
 
 export const createUser = async (user: TUser): Promise<TUser> => {
     const userByLogin = await getUserByLogin(user.login);
 
-    if(Object.keys(userByLogin).length === 0){
-        return await UserModel.create({ ...user })
+    if (Object.keys(userByLogin).length === 0) {
+        return await UserModel.create({ ...user });
     }
 };
 
@@ -25,17 +25,17 @@ export const getUser = async (id: number): Promise<TUser> => await UserModel.fin
 export const deleteUser = async (id: number): Promise<[number, TUser[]]> => {
     await UserGroup.destroy({
         where: {
-            user_id: id,
+            user_id: id
         }
     });
 
     return await UserModel.update({
-        isDelete: true,
+        isDelete: true
     }, {
         where: {
             id
         }
-    })
+    });
 };
 
 export const updateUser = async (id: number, params: TUser): Promise<[number, TUser[]]> =>
@@ -45,7 +45,7 @@ export const updateUser = async (id: number, params: TUser): Promise<[number, TU
         where: {
             id
         },
-        returning: true,
+        returning: true
     });
 
 export const getAutoSuggestUsers = async ({ login, limit }: TAutoSuggestUsers): Promise<TUser[]> =>
@@ -55,6 +55,5 @@ export const getAutoSuggestUsers = async ({ login, limit }: TAutoSuggestUsers): 
                 [Op.iLike]: `%${login}%`
             }
         },
-        limit,
+        limit
     });
-
